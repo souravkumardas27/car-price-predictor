@@ -133,7 +133,6 @@ dmypy.json
 *.joblib
 *.h5
 *.hdf5
-*.model
 *.weights
 
 # Data files (uncomment if you want to ignore data files)
