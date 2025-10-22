@@ -13,25 +13,25 @@ st.title("🚗 Car Price Prediction App")
 st.markdown("Enter car details below to predict the price:")
 
 # -------------------
-# ROBUST MODEL LOADING
+# MODEL LOADING
 # -------------------
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-MODEL_PATH = os.path.join(BASE_DIR, '..', 'models', 'car_price_model.pkl')
+# Safe absolute path
+MODEL_FILE = os.path.join(os.getcwd(), 'models', 'car_price_model.pkl')
 
-if not os.path.exists(MODEL_PATH):
-    st.error(f"Model file not found at {MODEL_PATH}. Please save the model correctly.")
+if not os.path.exists(MODEL_FILE):
+    st.error(f"Model file not found at {MODEL_FILE}. Please upload it to the 'models' folder.")
     st.stop()
-else:
-    model = joblib.load(MODEL_PATH)
-    st.success("Model loaded successfully!")
 
-# Load training columns for alignment
+model = joblib.load(MODEL_FILE)
+
+# Load training columns (used to align input features)
 train_columns = model.get_booster().feature_names if hasattr(model, 'get_booster') else model.feature_names_in_
 
 # -------------------
 # USER INPUTS
 # -------------------
 def user_input_features():
+    # Known categories from training
     known_makes = ['Maruti', 'Honda', 'Hyundai', 'Toyota', 'BMW', 'Mercedes', 'Kia', 'Skoda', 'Tata']
     known_fuel = ['Petrol','Diesel','CNG','Electric']
     known_transmission = ['Manual','Automatic']
@@ -60,8 +60,10 @@ def user_input_features():
         'Max_Power': Max_Power,
         'Seating_Capacity': Seating_Capacity
     }
+
     return pd.DataFrame([data])
 
+# Get user input
 input_df = user_input_features()
 
 # -------------------
@@ -73,6 +75,7 @@ input_encoded = pd.get_dummies(input_df)
 for col in train_columns:
     if col not in input_encoded.columns:
         input_encoded[col] = 0
+
 input_encoded = input_encoded[train_columns]
 
 # -------------------
@@ -83,7 +86,7 @@ if st.button("Predict Price"):
     st.success(f"Predicted Car Price: ₹ {prediction[0]:,.0f}")
 
 # -------------------
-# FEATURE IMPORTANCE
+# OPTIONAL: Feature Importance
 # -------------------
 if st.checkbox("Show Feature Importances"):
     if hasattr(model, 'feature_importances_'):
