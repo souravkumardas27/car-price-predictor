@@ -129,7 +129,6 @@ dmypy.json
 .pyre/
 
 # Machine Learning specific
-*.pkl
 *.joblib
 *.h5
 *.hdf5
