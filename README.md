@@ -153,7 +153,7 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 🌐 Live Demo
 
-🚀 **Try the app online**: [Streamlit App](https://your-app-name.streamlit.app) *(Coming Soon)*
+🚀 **Try the app online**: [Streamlit App](https://car-price-predictor57.streamlit.app) 
 
 ## 📞 Contact
 
